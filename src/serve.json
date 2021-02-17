@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "Macarrão Vegano",
+      "image_url":
+        "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "price": 30
+    },
+    {
+      "id": "2",
+      "title": "Pizza Vegana",
+      "image_url":
+        "https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
+      "price": 60
+    },
+    {
+      "id": "3",
+      "title": "Panqueca Americana",
+      "image_url":
+        "https://images.pexels.com/photos/357573/pexels-photo-357573.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "price": 20
+    }
+  ]
+}
