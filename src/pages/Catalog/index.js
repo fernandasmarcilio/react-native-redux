@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
+import api from '../../services/api';
 import formatPrice from '../../utils/formatPrice';
 
 import FloatingCart from '../../components/FloatingCart';
-
-import server from '../../server.json';
 
 import {
   Container,
@@ -22,7 +21,16 @@ import {
 } from './styles';
 
 const Catalog = () => {
-  const [products, setProducts] = useState(server.products);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    async function loadProducts() {
+      const { data } = await api.get('/products');
+      setProducts(data);
+    }
+
+    loadProducts();
+  }, []);
 
   return (
     <Container>
