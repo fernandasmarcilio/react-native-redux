@@ -2,9 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import formatPrice from '../../utils/formatPrice';
+import EmptyCart from '../../components/EmptyCart';
 
-import server from '../../serve.json';
+import formatPrice from '../../utils/formatPrice';
 
 import {
   Container,
@@ -27,24 +27,7 @@ import {
 } from './styles';
 
 const Cart = () => {
-  const [products, setProducts] = useState([
-    {
-      id: '1',
-      title: 'Pizza Vegana',
-      image_url:
-        'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
-      price: 60,
-      quantity: 2,
-    },
-    {
-      id: '2',
-      title: 'Macarrão Vegano',
-      image_url:
-        'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940',
-      price: 30,
-      quantity: 1,
-    },
-  ]);
+  const [products, setProducts] = useState([]);
 
   const cartSize = useMemo(() => products.length || 0, [products]);
 
@@ -66,6 +49,7 @@ const Cart = () => {
           listFooterComponentStyle={{
             height: 80,
           }}
+          ListEmptyComponent={<EmptyCart />}
           renderItem={({ item }) => (
             <Product>
               <ProductImage source={{ uri: item.image_url }} />

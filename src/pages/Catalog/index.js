@@ -6,7 +6,7 @@ import formatPrice from '../../utils/formatPrice';
 
 import FloatingCart from '../../components/FloatingCart';
 
-import server from '../../serve.json';
+import server from '../../server.json';
 
 import {
   Container,
