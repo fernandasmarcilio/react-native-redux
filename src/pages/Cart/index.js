@@ -1,6 +1,9 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 import EmptyCart from '../../components/EmptyCart';
 
@@ -27,17 +30,31 @@ import {
 } from './styles';
 
 const Cart = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+
+  const products = useSelector(({ cart }) => cart);
 
   const cartSize = useMemo(() => products.length || 0, [products]);
 
   const cartTotal = useMemo(() => {
     const cartAmount = products.reduce(
-      (acc, product) => acc + product.price * product.quantity,
+      (acc, product) => acc + product.price * product.amount,
       0
     );
     return formatPrice(cartAmount);
   }, [products]);
+
+  const incrementProduct = (product) => {
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount + 1));
+  };
+
+  const decrementProduct = (product) => {
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount - 1));
+  };
+
+  const removeProductFromCart = (id) => {
+    dispatch(CartActions.removeFromCart(id));
+  };
 
   return (
     <Container>
@@ -62,19 +79,25 @@ const Cart = () => {
                   </ProductSinglePrice>
 
                   <ProductPriceTotalContainer>
-                    <ProductQuantity>{`${item.quantity}x`}</ProductQuantity>
+                    <ProductQuantity>{`${item.amount}x`}</ProductQuantity>
                     <ProductPrice>
-                      {formatPrice(item.price * item.quantity)}
+                      {formatPrice(item.price * item.amount)}
                     </ProductPrice>
                   </ProductPriceTotalContainer>
                 </ProductPriceContainer>
               </ProductTitleContainer>
 
               <ActionContainer>
-                <ActionButton onPress={() => {}}>
+                <ActionButton onPress={() => incrementProduct(item)}>
                   <FeatherIcon name="plus" color="#e84a38" size={16} />
                 </ActionButton>
-                <ActionButton onPress={() => {}}>
+                <ActionButton
+                  onPress={() => {
+                    item.amount > 1
+                      ? decrementProduct(item)
+                      : removeProductFromCart(item.id);
+                  }}
+                >
                   <FeatherIcon name="minus" color="#e84a38" size={16} />
                 </ActionButton>
               </ActionContainer>

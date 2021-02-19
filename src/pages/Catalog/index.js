@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { View } from 'react-native';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
+import * as CartActions from '../../store/modules/cart/actions';
 import api from '../../services/api';
 import formatPrice from '../../utils/formatPrice';
 
@@ -21,6 +23,8 @@ import {
 } from './styles';
 
 const Catalog = () => {
+  const dispatch = useDispatch();
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -31,6 +35,10 @@ const Catalog = () => {
 
     loadProducts();
   }, []);
+
+  const handleAddToCart = (id) => {
+    dispatch(CartActions.addToCartRequest(id));
+  };
 
   return (
     <Container>
@@ -49,7 +57,7 @@ const Catalog = () => {
               <ProductTitle>{item.title}</ProductTitle>
               <ProductPriceContainer>
                 <ProductPrice>{formatPrice(item.price)}</ProductPrice>
-                <ProductButton>
+                <ProductButton onPress={() => handleAddToCart(item.id)}>
                   <ProductButtonText>Adicionar</ProductButtonText>
                   <FeatherIcon size={30} name="plus-circle" color="#fff" />
                 </ProductButton>
